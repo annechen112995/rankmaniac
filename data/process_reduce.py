@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python2
 
 import sys
 
@@ -11,6 +11,9 @@ Input: NodeId, PageRank, List of Outlinks
 '''
 
 alpha = 0.85
+highestNodes = []
+highestRanks = []
+nodeCount = 0
 
 for line in sys.stdin:
     tab = line.strip().split('\t')
@@ -20,4 +23,17 @@ for line in sys.stdin:
     rank = 1.0 - (alpha) + (alpha * rank)
 
     sys.stdout.write('FinalRank:%s\t%s\n' % (rank, nodeId))
+
+    '''
+    if nodeId not in highestNodes and nodeCount < 20:
+        highestNodes.append(nodeId)
+        highestRanks.append(rank)
+        nodeCount += 1
+    else:
+        if (nodeCount == 20) and rank > max(highestRanks):
+            sys.stdout.write('higher rank %s, %s' % (rank, max(highestRanks)))
+
     #sys.stdout.write(line)
+for i in range(len(highestNodes)):
+    sys.stdout.write('FinalRank:%s\t%s\n' % (highestNodes[i], highestRanks[i]))
+    '''
