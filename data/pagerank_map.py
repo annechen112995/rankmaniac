@@ -18,4 +18,8 @@ for line in sys.stdin:
     nodeId = tab[0][7:] # get nodeID number
     currPageRank = float(content[0])
 
+<<<<<<< HEAD
     sys.stdout.write('%s\t%s\n' % (nodeId, currPageRank))
+=======
+    sys.stdout.write('FinalRank:%s\t%s\n' % (currPageRank, nodeId))
+>>>>>>> working
