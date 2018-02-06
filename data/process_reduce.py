@@ -3,36 +3,51 @@
 import sys
 
 #
-# This program simply represents the identity function.
+# This function takes the input of the reducer and eiter returns input to
+# the next pageRank map function or the final rank
 #
 
 '''
-Input: NodeId, PageRank, List of Outlinks
+Input: (1, list of (bool, "NodeID:i \t currentRank, preRank, [adj nodes]"))
+Output: "NodeID:i \t currentRank, preRank, [adj nodes]"
+    or  "FinalRank: rank i" of top 20 nodes
 '''
 
-alpha = 0.85
-highestNodes = []
-highestRanks = []
-nodeCount = 0
 
+nodeString = []
+nodes = []
+finals = []
+nHighest = 20
+
+# Gather all input string and parse
 for line in sys.stdin:
     tab = line.strip().split('\t')
+    # We dont need the key (1)
     content = tab[1].split(',')
-    nodeId = tab[0]
-    rank = float(content[0])
+    # This is the boolean denoting convergence of a singular node rank
+    finals.append(bool(int(content[0])))
+    # This is the string of "NodeID:i\tcurrentRank, preRank, [adg]"
+    nodeString.append(content[1])
 
-    sys.stdout.write('FinalRank:%s\t%s\n' % (rank, nodeId))
+# If rank converged, output final rank
+if finals.all():
+    # extract nodeId and nodeRank from node strings
+    for i in nodeString:
+        tab = i.strip().split('t')
+        nodeId = tab[0][7:]
+        content = tab[1].split(',')
+        nodeRank = content[1]
+        nodes.append([nodeId, nodeRank])
 
-    '''
-    if nodeId not in highestNodes and nodeCount < 20:
-        highestNodes.append(nodeId)
-        highestRanks.append(rank)
-        nodeCount += 1
-    else:
-        if (nodeCount == 20) and rank > max(highestRanks):
-            sys.stdout.write('higher rank %s, %s' % (rank, max(highestRanks)))
+    # Calculate final rank by sorting in descending order
+    nodes.sort(key=lambda x: float(x[1]), reverse=True)
 
-    #sys.stdout.write(line)
-for i in range(len(highestNodes)):
-    sys.stdout.write('FinalRank:%s\t%s\n' % (highestNodes[i], highestRanks[i]))
-    '''
+    # Output final rank
+    for i in range(nHighest):
+        sys.stdout.write('FinalRank:%s\t%s\n' % (
+            nodes[i][1], nodes[i][0]))
+
+# Output to PageRank Mapper
+else:
+    for i in nodeString:
+        sys.stdout.write(i)
