@@ -25,15 +25,13 @@ for line in sys.stdin:
         outlinkValue = alpha * currPageRank / len(outlinks)
         newPageRank = (1 - alpha) * currPageRank
 
-        # Emit outlink and value of outlink
+        # Emit outlink and value of outlink "NodeID:i \t rank"
         for i in outlinks:
-            sys.stdout.write('%s\t%s\n' % (i, outlinkValue))
-        sys.stdout.write('%s\t%s\n' % nodeId, newPageRank) # Set current node pr to 0
+            sys.stdout.write('NodeId:%s\t%s\n' % (i, outlinkValue))
+        "NodeID:i\tnewPageRank, currPageRank, lists of outlinks"
+        sys.stdout.write('NodeId:%s\t%s,%s,%s\n' % (nodeId, newPageRank, currPageRank, tab[1][8:]))
 
     else:
         outlinks = []
         # Emit current node and it's pr
-        sys.stdout.write('%s\t%s\n' % (nodeId, currPageRank))
-
-    # Emit current node and it's content
-    sys.stdout.write('%s\t%s\n' % (nodeId, tab[1]))
+        sys.stdout.write('NodeId:%s\t%s\n' % (nodeId, tab[1]))

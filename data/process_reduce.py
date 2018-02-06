@@ -29,7 +29,7 @@ for line in sys.stdin:
     nodeString.append(content[1])
 
 # If rank converged, output final rank
-if finals.all():
+if all(finals):
     # extract nodeId and nodeRank from node strings
     for i in nodeString:
         tab = i.strip().split('t')
@@ -42,7 +42,7 @@ if finals.all():
     nodes.sort(key=lambda x: float(x[1]), reverse=True)
 
     # Output final rank
-    for i in range(nHighest):
+    for i in range(min(nHighest, len(nodes))):
         sys.stdout.write('FinalRank:%s\t%s\n' % (
             str(nodes[i][1]), str(nodes[i][0])))
 
