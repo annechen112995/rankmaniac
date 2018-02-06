@@ -33,6 +33,7 @@ for line in sys.stdin:
         sys.stdout.write('NodeId:%s\t%s,%s%s\n' % (nodeId, newPageRank, currPageRank, outlinkList))
 
     else:
+        newPageRank = currPageRank
         outlinks = []
         # Emit current node and it's pr
-        sys.stdout.write('NodeId:%s\t%s\n' % (nodeId, tab[1]))
+        sys.stdout.write('NodeId:%s\t%s,%s%s\n' % (nodeId, newPageRank, currPageRank, outlinkList))
