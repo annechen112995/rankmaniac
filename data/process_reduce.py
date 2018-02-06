@@ -8,7 +8,7 @@ import sys
 #
 
 '''
-Input: (1, list of (bool, "NodeID:i \t currentRank, preRank, [adj nodes]"))
+Input: (1\tbool, "NodeID:i \t currentRank, preRank, [adj nodes]")
 Output: "NodeID:i \t currentRank, preRank, [adj nodes]"
     or  "FinalRank: rank i" of top 20 nodes
 '''
@@ -18,15 +18,33 @@ nodes = []
 finals = []
 nHighest = 20
 
+testLineNum = 0
 # Gather all input string and parse
 for line in sys.stdin:
-    tab = line.strip().split('\t', 1)
-    # We dont need the key (1)
-    content = tab[1].split(',')
-    # This is the boolean denoting convergence of a singular node rank
-    finals.append(bool(int(content[0])))
-    # This is the string of "NodeID:i\tcurrentRank, preRank, [adg]"
-    nodeString.append(content[1])
+    if len(line) > 0:
+    # sys.stdout.write("\n\n\n")
+    # sys.stdout.write("line {}".format(testLineNum))
+    # sys.stdout.write(line)
+    # tab = line.strip().split('\t',1)
+    # idx = len(tab) - 1;
+    # # idx = 1;
+    # sys.stdout.write("tab length is {}\n".format(len(tab)));
+    # sys.stdout.write("last index in tab is {}\n".format(len(tab) - 1));
+    # sys.stdout.write("last element in tab is {}\n".format(tab[len(tab) - 1]));
+    # sys.stdout.write("last element in tab is using placeholder{}\n".format(tab[idx]));
+    # # sys.stdout.write("tab is {}".format(tab[1]));
+    # # print "tab is: " + str(tab)
+    # # for i in range(len(tab)):
+    # #     sys.stdout.write(str(i) + '\n')
+    # #     sys.stdout.write(str(tab[i]) + '\n')
+    # testLineNum = testLineNum + 1
+
+        # We dont need the key (1)
+        content = tab[1].split(',',1)
+        # This is the boolean denoting convergence of a singular node rank
+        finals.append(bool(int(content[0])))
+        # This is the string of "NodeID:i\tcurrentRank, preRank, [adg]"
+        nodeString.append(content[1])
 
 # If rank converged, output final rank
 if all(finals):
@@ -49,4 +67,4 @@ if all(finals):
 # Output to PageRank Mapper
 else:
     for i in nodeString:
-        sys.stdout.write(i)
+        sys.stdout.write(i)'''
