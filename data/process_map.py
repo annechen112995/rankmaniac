@@ -32,17 +32,17 @@ variable t.
 # 			adj_list is the node's neighbors, comma delineated
 
 for line in sys.stdin:
-    t = 0.0001
+    t = 0.1
     prevContent = str(line)
     tab = line.strip().split('\t')
     content = tab[1].split(',')
 
     c_pageRank = float(content[0])
     p_pageRank = float(content[1])
-    converged = 1
+    converged = 0
 
     # Return 0 as the value for converged if the change in pageRank is
     # larger than t
-    if (abs(c_pageRank-p_pageRank) > t):
-    	converged = 0
+    if (abs(c_pageRank-p_pageRank) < t):
+    	converged = 1
     sys.stdout.write(('1\t%s,%s\n' % (converged, prevContent)))

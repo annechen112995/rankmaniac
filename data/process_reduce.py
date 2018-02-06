@@ -34,11 +34,12 @@ for line in sys.stdin:
 if all(finals):
     # extract nodeId and nodeRank from node strings
     for i in nodeString:
-        tab = i.strip().split('t')
-        nodeId = tab[0][7:]
-        content = tab[1].split(',')
-        nodeRank = content[1]
-        nodes.append([int(nodeId), float(nodeRank)])
+        tab = i.strip().split('\t')
+        if len(tab) > 1:
+            nodeId = tab[0][7:]
+            content = tab[1].split(',')
+            nodeRank = content[1]
+            nodes.append([int(nodeId), float(nodeRank)])
 
     # Calculate final rank by sorting in descending order
     nodes.sort(key=lambda x: float(x[1]), reverse=True)

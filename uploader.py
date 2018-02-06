@@ -44,7 +44,7 @@ def decode(key, enc):
 
 
 def do_main(team_id, access_key, secret_key,
-			infile='input.txt', max_iter=1):
+			infile='input.txt', max_iter=50):
 	"""
 	Submits a new map-reduce job to Amazon EMR and waits for it to
 	finish executing.
