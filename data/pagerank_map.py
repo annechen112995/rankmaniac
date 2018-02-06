@@ -31,6 +31,7 @@ for line in sys.stdin:
         sys.stdout.write('%s\t%s\n' % nodeId, newPageRank) # Set current node pr to 0
 
     else:
+        outlinks = []
         # Emit current node and it's pr
         sys.stdout.write('%s\t%s\n' % (nodeId, currPageRank))
 
