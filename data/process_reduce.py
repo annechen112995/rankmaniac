@@ -51,4 +51,4 @@ if all(finals):
 # Output to PageRank Mapper
 else:
     for i in nodeString:
-        sys.stdout.write(i)
+        sys.stdout.write('%s\n' % i)

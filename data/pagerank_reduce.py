@@ -31,13 +31,26 @@ from the mapper program.
 #
 
 
+c_pageRank = 0.0
+prev_key = None
+outlink_string = ''
+
 for line in sys.stdin:
     # split the line to get our key and values
     tab = line.strip().split('\t')
-    content = tab[1].split(',')
-    c_pageRank = 0.0
-    outlink_string = ''
+    curr_key = tab[0]
 
+    if (curr_key != prev_key and prev_key is not None):
+        sys.stdout.write('%s\t%s,%s%s\n' % (prev_key, c_pageRank, p_pageRank, outlink_string))
+        c_pageRank = 0.0
+        prev_key = curr_key
+        outlink_string = ''
+        
+    if (prev_key is None):
+        prev_key = curr_key
+
+    content = tab[1].split(',')
+    
     if len(content) > 1:
         c_pageRank += float(content[0])
         p_pageRank = content[1]    # the previous pageRank
@@ -47,5 +60,7 @@ for line in sys.stdin:
     else:
         c_pageRank += float(content[0]) # We sum the contributions to pageRank
 
+sys.stdout.write('%s\t%s,%s%s\n' % (prev_key, c_pageRank, p_pageRank, outlink_string))
 
-sys.stdout.write('%s\t%s,%s%s\n' % (tab[0], c_pageRank, p_pageRank, outlink_string))
+
+
