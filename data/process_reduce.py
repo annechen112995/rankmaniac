@@ -13,7 +13,6 @@ Output: "NodeID:i \t currentRank, preRank, [adj nodes]"
     or  "FinalRank: rank i" of top 20 nodes
 '''
 
-
 nodeString = []
 nodes = []
 finals = []
@@ -37,7 +36,7 @@ if finals.all():
         nodeId = tab[0][7:]
         content = tab[1].split(',')
         nodeRank = content[1]
-        nodes.append([nodeId, nodeRank])
+        nodes.append([int(nodeId), float(nodeRank)])
 
     # Calculate final rank by sorting in descending order
     nodes.sort(key=lambda x: float(x[1]), reverse=True)
@@ -45,7 +44,7 @@ if finals.all():
     # Output final rank
     for i in range(nHighest):
         sys.stdout.write('FinalRank:%s\t%s\n' % (
-            nodes[i][1], nodes[i][0]))
+            str(nodes[i][1]), str(nodes[i][0])))
 
 # Output to PageRank Mapper
 else:
