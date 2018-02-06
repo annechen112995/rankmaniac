@@ -11,6 +11,8 @@ Example Input: NodeId:0	1.0,0.0,1,2
 Format: NodeId:<IDNumber>\t<currPageRank>,<prevPageRank>,<outlinks>\n
 '''
 
+alpha = 0.85;
+
 for line in sys.stdin:
     tab = line.strip().split('\t')
     content = tab[1].split(',')
@@ -20,12 +22,13 @@ for line in sys.stdin:
     # Check for outlinks
     if len(content) > 2:
         outlinks = content[2:]
-        outlinkValue = currPageRank / len(outlinks)
+        outlinkValue = alpha * currPageRank / len(outlinks)
+        newPageRank = (1 - alpha) * currPageRank
 
         # Emit outlink and value of outlink
         for i in outlinks:
             sys.stdout.write('%s\t%s\n' % (i, outlinkValue))
-        sys.stdout.write('%s\t0\n' % nodeId) # Set current node pr to 0
+        sys.stdout.write('%s\t%s\n' % nodeId, newPageRank) # Set current node pr to 0
 
     else:
         # Emit current node and it's pr

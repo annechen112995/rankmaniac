@@ -20,7 +20,6 @@ for line in sys.stdin:
     content = tab[1].split(',')
     nodeId = tab[0]
     rank = float(content[0])
-    rank = 1.0 - (alpha) + (alpha * rank)
 
     sys.stdout.write('FinalRank:%s\t%s\n' % (rank, nodeId))
 
