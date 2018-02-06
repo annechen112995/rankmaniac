@@ -21,7 +21,7 @@ nHighest = 20
 
 # Gather all input string and parse
 for line in sys.stdin:
-    tab = line.strip().split('\t')
+    tab = line.strip().split('\t', 1)
     # We dont need the key (1)
     content = tab[1].split(',')
     # This is the boolean denoting convergence of a singular node rank
