@@ -32,7 +32,7 @@ variable t.
 # 			adj_list is the node's neighbors, comma delineated
 
 for line in sys.stdin:
-    t = 0.01
+    t = 0.002
     prevContent = str(line)
     tab = line.strip().split('\t')
     content = tab[1].split(',')
