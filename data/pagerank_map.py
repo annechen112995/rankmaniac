@@ -19,6 +19,12 @@ for line in sys.stdin:
     nodeId = tab[0][7:] # get nodeID number
     currPageRank = float(content[0])
     outlinkList = ''
+    iterations = None
+
+    if (len(tab) < 3):
+        iterations = 0
+    else:
+        iterations = tab[2]
 
     # Check for outlinks
     if len(content) > 2:
@@ -29,10 +35,10 @@ for line in sys.stdin:
         # Emit outlink and value of outlink "NodeID:i \t rank"
         for i in outlinks:
             outlinkList = outlinkList + ',' + i
-            sys.stdout.write('NodeId:%s\t%s\n' % (i, outlinkValue))
+            sys.stdout.write('NodeId:%s\t%s\t%s\n' % (i, outlinkValue, iterations))
         sys.stdout.write('NodeId:%s\t%s,%s%s\n' % (nodeId, newPageRank, currPageRank, outlinkList))
 
     else:
         outlinks = []
         # Emit current node and it's pr
-        sys.stdout.write('NodeId:%s\t%s\n' % (nodeId, tab[1]))
+        sys.stdout.write('NodeId:%s\t%s\t%s\n' % (nodeId, tab[1], iterations))

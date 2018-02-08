@@ -12,7 +12,7 @@ from the mapper program.
 
 # Input:
 # Each input line is formatted as either:
-# 1. NodeId: n_id\tr_contr, p_rank, adj_list
+# 1. NodeId: n_id\tr_contr, p_rank, adj_list\titerations
 # or
 # 2. NodeId: n_id\tr_contr
 #
@@ -22,6 +22,7 @@ from the mapper program.
 #           r_contr is the portion of the node's pageRank
 #           p_rank is the previous pagerank of the node
 #           adj_list is the node's neighbors, comma delineated
+#           iterations is the current number of iterations performed
 #
 #
 # Output:
@@ -33,16 +34,21 @@ from the mapper program.
 
 c_pageRank = 0.0
 prev_key = None
+p_pageRank = None
 outlink_string = ''
+iterations = None
 
 for line in sys.stdin:
     # split the line to get our key and values
+    line_copy = line
     tab = line.strip().split('\t')
     curr_key = tab[0]
+    iterations = tab[2]
 
     if (curr_key != prev_key and prev_key is not None):
-        sys.stdout.write('%s\t%s,%s%s\n' % (prev_key, c_pageRank, p_pageRank, outlink_string))
+        sys.stdout.write('%s\t%s,%s%s\t%s\n' % (prev_key, c_pageRank, p_pageRank, outlink_string, iterations))
         c_pageRank = 0.0
+        p_pageRank = None
         prev_key = curr_key
         outlink_string = ''
         
@@ -60,7 +66,7 @@ for line in sys.stdin:
     else:
         c_pageRank += float(content[0]) # We sum the contributions to pageRank
 
-sys.stdout.write('%s\t%s,%s%s\n' % (prev_key, c_pageRank, p_pageRank, outlink_string))
+sys.stdout.write('%s\t%s,%s%s\t%s\n' % (prev_key, c_pageRank, p_pageRank, outlink_string, iterations))
 
 
 
