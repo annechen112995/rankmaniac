@@ -43,7 +43,8 @@ for line in sys.stdin:
     line_copy = line
     tab = line.strip().split('\t')
     curr_key = tab[0]
-    iterations = tab[2]
+    if (len(tab) > 2):
+        iterations = tab[2]
 
     if (curr_key != prev_key and prev_key is not None):
         sys.stdout.write('%s\t%s,%s%s\t%s\n' % (prev_key, c_pageRank, p_pageRank, outlink_string, iterations))
