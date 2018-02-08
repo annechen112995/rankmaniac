@@ -34,9 +34,9 @@ variable t.
 #           iterations is the number of iterations performed
 
 for line in sys.stdin:
-    t = 0.002
+    t = 0.05
     tab = line.strip().split('\t')
-    prevContent = str(tab[0]) + str(tab[1])
+    prevContent = str(tab[0]) + ('\t') + str(tab[1])
     content = tab[1].split(',')
     iterations = int(tab[2]) + 1
 

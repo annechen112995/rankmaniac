@@ -28,7 +28,7 @@ def process_input(line):
     # Separate iter with node --> ['NodeId...', iter]
     last_tab = first_comma[1].rsplit('\t', 1)
     node_string = last_tab[0]
-    iter_ID = last_tab[1]
+    iter_ID = int(last_tab[1])
 
     return converged_tag, node_string, iter_ID
 
@@ -72,7 +72,7 @@ for line in sys.stdin:
         node_strings.append(node_string)
 
 # If rank converged, output final rank
-if all(converged_tags) or iter_ID >= max_iter - 1:
+if all(converged_tags) or iter_ID >= max_iter:
     nodes = process_nodes(node_strings)
 
     # Output final rank
@@ -83,4 +83,4 @@ if all(converged_tags) or iter_ID >= max_iter - 1:
 # Output to PageRank Mapper
 else:
     for i in node_strings:
-        sys.stdout.write('%s\t%s\n' % i, iter_ID + 1)
+        sys.stdout.write('%s\t%s\n' % (i, iter_ID))
