@@ -8,48 +8,79 @@ import sys
 #
 
 '''
-Input: (1\tbool, "NodeID:i \t currentRank, preRank, [adj nodes]")
-Output: "NodeID:i \t currentRank, preRank, [adj nodes]"
+Input: "1\tbool,NodeID:i \t currentRank, preRank, [adj nodes \t iter"
+Output: "NodeID:i \t currentRank, preRank, [adj nodes \t iter"
     or  "FinalRank: rank i" of top 20 nodes
 '''
 
-nodeString = []
-nodes = []
-finals = []
-nHighest = 20
 
-testLineNum = 0
-# Gather all input string and parse
-for line in sys.stdin:
-    tab = line.strip().split('\t', 1)
-    if len(tab) > 1:
-        # We dont need the key (1)
-        content = tab[1].split(',', 1)
-        # This is the boolean denoting convergence of a singular node rank
-        finals.append(bool(int(content[0])))
-        # This is the string of "NodeID:i\tcurrentRank, preRank, [adg]"
-        nodeString.append(content[1])
+def process_input(line):
+    # Remove key
+    preprocess = line.strip().split('\t', 1)
 
-# If rank converged, output final rank
-if all(finals):
-    # extract nodeId and nodeRank from node strings
-    for i in nodeString:
+    # Obtain value "bool, NodeID:i \t cRank, pRank, nodes \t iter"
+    value = preprocess[1]
+
+    # We get [bool, "NodeID..... \t iter"]
+    first_comma = value.split(',', 1)
+    converged_tag = bool(int(first_comma[0]))
+
+    # Separate iter with node --> ['NodeId...', iter]
+    last_tab = first_comma[1].rsplit('\t', 1)
+    node_string = last_tab[0]
+    iter_ID = last_tab[1]
+
+    return converged_tag, node_string, iter_ID
+
+
+def process_nodes(node_strings):
+    '''
+    We get a list of "NodeID:i \t c_rank, p_rank, adj nodes..."
+    output: lists of (nodeID, c_rank) sorted by c_rank in reverse
+    '''
+    nodes = []
+
+    # Organize into pairs of (nodeID, c_rank)
+    for i in node_strings:
         tab = i.strip().split('\t')
         if len(tab) > 1:
-            nodeId = tab[0][7:]
+            node_Id = tab[0][7:]
             content = tab[1].split(',')
-            nodeRank = content[1]
-            nodes.append([int(nodeId), float(nodeRank)])
+            node_rank = content[1]
+            nodes.append([int(node_Id), float(node_rank)])
 
     # Calculate final rank by sorting in descending order
     nodes.sort(key=lambda x: float(x[1]), reverse=True)
 
+    return nodes
+
+
+node_strings = []
+converged_tags = []
+num_top_pages = 20
+max_iter = 50
+iter_ID = 0
+test_line_num = 0
+
+# Gather all input string and parse
+for line in sys.stdin:
+    if len(line) > 1:
+        converged_tag, node_string, iter_ID = process_input(line)
+
+        # Store
+        converged_tags.append(converged_tag)
+        node_strings.append(node_string)
+
+# If rank converged, output final rank
+if all(converged_tags) or iter_ID >= max_iter - 1:
+    nodes = process_nodes(node_strings)
+
     # Output final rank
-    for i in range(min(nHighest, len(nodes))):
+    for i in range(min(num_top_pages, len(nodes))):
         sys.stdout.write('FinalRank:%s\t%s\n' % (
             str(nodes[i][1]), str(nodes[i][0])))
 
 # Output to PageRank Mapper
 else:
-    for i in nodeString:
-        sys.stdout.write('%s\n' % i)
+    for i in node_strings:
+        sys.stdout.write('%s\t%s\n' % i, iter_ID + 1)
