@@ -19,11 +19,9 @@ for line in sys.stdin:
     nodeId = tab[0][7:] # get nodeID number
     currPageRank = float(content[0])
     outlinkList = ''
-    iterations = None
+    iterations = 0
 
-    if (len(tab) < 3):
-        iterations = 0
-    else:
+    if (len(tab) = 3):
         iterations = tab[2]
 
     # Check for outlinks
