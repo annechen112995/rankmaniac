@@ -35,8 +35,8 @@ variable t.
 
 for line in sys.stdin:
     t = 0.002
-    prevContent = str(line)
     tab = line.strip().split('\t')
+    prevContent = str(tab[0]) + str(tab[1])
     content = tab[1].split(',')
     iterations = int(tab[2]) + 1
 
@@ -48,4 +48,4 @@ for line in sys.stdin:
     # larger than t
     if (abs(c_pageRank-p_pageRank) < t):
     	converged = 1
-    sys.stdout.write(('1\t%s,%s\n' % (converged, prevContent)))
+    sys.stdout.write(('1\t%s,%s\t%s\n' % (converged, prevContent, iterations)))
