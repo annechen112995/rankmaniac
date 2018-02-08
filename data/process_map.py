@@ -33,8 +33,8 @@ variable t.
 # 			adj_list is the node's neighbors, comma delineated
 #           iterations is the number of iterations performed
 
+
 for line in sys.stdin:
-    t = 0.05
     tab = line.strip().split('\t')
     prevContent = str(tab[0]) + ('\t') + str(tab[1])
     content = tab[1].split(',')
@@ -46,6 +46,5 @@ for line in sys.stdin:
 
     # Return 0 as the value for converged if the change in pageRank is
     # larger than t
-    if (abs(c_pageRank-p_pageRank) < t):
-    	converged = 1
+    converged = abs(c_pageRank-p_pageRank)
     sys.stdout.write(('1\t%s,%s\t%s\n' % (converged, prevContent, iterations)))

@@ -23,14 +23,14 @@ def process_input(line):
 
     # We get [bool, "NodeID..... \t iter"]
     first_comma = value.split(',', 1)
-    converged_tag = bool(int(first_comma[0]))
+    converged = float(first_comma[0])
 
     # Separate iter with node --> ['NodeId...', iter]
     last_tab = first_comma[1].rsplit('\t', 1)
     node_string = last_tab[0]
     iter_ID = int(last_tab[1])
 
-    return converged_tag, node_string, iter_ID
+    return converged, node_string, iter_ID
 
 
 def process_nodes(node_strings):
@@ -56,23 +56,25 @@ def process_nodes(node_strings):
 
 
 node_strings = []
-converged_tags = []
+converged = 0
 num_top_pages = 20
-max_iter = 50
+max_iter = 25
 iter_ID = 0
 test_line_num = 0
 
 # Gather all input string and parse
 for line in sys.stdin:
     if len(line) > 1:
-        converged_tag, node_string, iter_ID = process_input(line)
+        diff, node_string, iter_ID = process_input(line)
 
         # Store
-        converged_tags.append(converged_tag)
+        converged += diff
         node_strings.append(node_string)
 
+t = 0.005
+N = len(node_strings)
 # If rank converged, output final rank
-if all(converged_tags) or iter_ID >= max_iter:
+if (converged <= N * t) or iter_ID >= max_iter:
     nodes = process_nodes(node_strings)
 
     # Output final rank

@@ -2,6 +2,9 @@
 
 $iters = 0;
 
+system('rm output.txt');
+system('rm output2.txt');
+
 $out1 = "output.txt";
 $out2 = "output2.txt";
 
