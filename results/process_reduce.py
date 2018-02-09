@@ -71,7 +71,7 @@ for line in sys.stdin:
         converged += diff
         node_strings.append(node_string)
 
-t = 0.002
+t = 0.001
 N = len(node_strings)
 # If rank converged, output final rank
 if (converged <= N * t) or iter_ID >= max_iter:

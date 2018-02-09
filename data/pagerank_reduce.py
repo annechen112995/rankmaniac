@@ -58,7 +58,10 @@ for line in sys.stdin:
     
     if len(content) > 1:
         iterations = tab[2]
-        c_pageRank += float(content[0])
+        if iterations > 3:
+            c_pageRank += 2 * float(content[0])
+        else:
+            c_pageRank += float(content[0])
         p_pageRank = content[1]    # the previous pageRank
         outlink_list = content[2:] # the list of neighbors
         for i in outlink_list:
